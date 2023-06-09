@@ -46,7 +46,23 @@ export const addEvent =
       tab.sessionId === event.session_id
         ? {
             ...tab,
-            events: [{ ...event, folded: true }, ...tab.events],
+            events: [{ ...event, folded: false }, ...tab.events],
+          }
+        : tab
+    ),
+  });
+
+export const toggleFold =
+  (tabId: string, eventId: number) =>
+  (store: App.Store): App.Store => ({
+    ...store,
+    tabs: store.tabs.map((tab) =>
+      tab.id === tabId
+        ? {
+            ...tab,
+            events: tab.events.map((event) =>
+              event.id === eventId ? { ...event, folded: !event.folded } : event
+            ),
           }
         : tab
     ),

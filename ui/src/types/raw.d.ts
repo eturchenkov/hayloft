@@ -9,7 +9,7 @@ declare global {
       id: number;
       title: string;
       message: string;
-      type: string;
+      type: "info" | "prompt" | "response";
       session_id: number;
     };
     type StreamObj = {

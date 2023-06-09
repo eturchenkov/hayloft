@@ -40,13 +40,44 @@ export const App = () => {
                   {tab.events.map((event, i) => (
                     <div
                       key={event.id}
-                      className="card p-0 mb-4 border border-slate-700 shadow-xl"
+                      className={cs("card p-0 mb-4 border", {
+                        "cursor-pointer border-slate-700 hover:border-slate-400":
+                          event.folded,
+                        "border-slate-400": !event.folded,
+                      })}
+                      onClick={() =>
+                        event.folded &&
+                        mutateStore(M.toggleFold(tab.id, event.id))
+                      }
                     >
-                      <div className="card-body p-6 divide-y divide-slate-700">
-                        <h3 className="card-title">{`${
-                          tab.events.length - i
-                        }. [${event.type}] ${event.title}`}</h3>
-                        <p className="pt-4 text-sm">
+                      <div className="card-body px-4 py-3">
+                        <h3
+                          className={cs("card-title text-lg", {
+                            "text-gray-500": event.folded,
+                            "text-gray-300 cursor-pointer": !event.folded,
+                          })}
+                          onClick={(e) => {
+                            !event.folded &&
+                              mutateStore(M.toggleFold(tab.id, event.id));
+                            e.preventDefault();
+                          }}
+                        >
+                          {`${tab.events.length - i}. ${event.title}`}{" "}
+                          <span
+                            className={cs("py-0 px-2 text-sm rounded-lg", {
+                              "bg-cyan-900": event.type === "info",
+                              "bg-indigo-900": event.type === "prompt",
+                              "bg-orange-900": event.type === "response",
+                            })}
+                          >
+                            {event.type}
+                          </span>
+                        </h3>
+                        <p
+                          className={cs("text-base text-gray-500", {
+                            "line-clamp-2": event.folded,
+                          })}
+                        >
                           {event.message.split("\n").map((line, i) => (
                             <span key={i}>
                               {line}
