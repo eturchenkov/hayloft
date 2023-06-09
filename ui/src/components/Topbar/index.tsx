@@ -21,10 +21,10 @@ export const Topbar: FC = () => {
                 <div className="px-8 py-4 flex space-x-4">
                   {isTabMany && (
                     <p
-                      className="flex-none rounded-lg bg-gray-700 cursor-pointer"
+                      className="flex-none rounded-xl bg-gray-700 cursor-pointer"
                       onClick={() => mutateStore(M.removeTab(tab.id))}
                     >
-                      <XMarkIcon className="h-6 w-6 text-gray-500" />
+                      <XMarkIcon className="h-6 w-6 scale-75 text-gray-500" />
                     </p>
                   )}
                   <span>{sessionName}</span>
@@ -37,10 +37,10 @@ export const Topbar: FC = () => {
                 <div className="px-8 py-4 flex space-x-4">
                   {isTabMany && (
                     <p
-                      className="flex-none rounded-lg bg-gray-700 cursor-pointer"
+                      className="flex-none rounded-xl bg-gray-700 cursor-pointer"
                       onClick={() => mutateStore(M.removeTab(tab.id))}
                     >
-                      <XMarkIcon className="h-6 w-6 text-gray-500" />
+                      <XMarkIcon className="h-6 w-6 scale-75 text-gray-500" />
                     </p>
                   )}
                   <p
@@ -59,7 +59,7 @@ export const Topbar: FC = () => {
       })}
       <div
         key="add-icon"
-        className="absolute right-4 top-3 rounded-full bg-gray-700 cursor-pointer"
+        className="absolute right-4 top-3 rounded-full bg-gray-700 hover:bg-gray-600 cursor-pointer"
         onClick={() => mutateStore(M.addTab)}
       >
         <PlusSmallIcon className="h-8 w-8 text-gray-500" />

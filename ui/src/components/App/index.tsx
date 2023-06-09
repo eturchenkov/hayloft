@@ -35,7 +35,7 @@ export const App = () => {
             <div key={tab.id} className="flex-1">
               <div className="h-full text-left flex flex-col space-y-8 overflow-y-auto">
                 <div
-                  className={cs("p-4", { "w-1/2": store.tabs.length === 1 })}
+                  className={cs("p-4", { "lg:w-1/2": store.tabs.length === 1 })}
                 >
                   {tab.events.map((event, i) => (
                     <div
@@ -64,18 +64,22 @@ export const App = () => {
                         >
                           {`${tab.events.length - i}. ${event.title}`}{" "}
                           <span
-                            className={cs("py-0 px-2 text-sm rounded-lg", {
-                              "bg-cyan-900": event.type === "info",
-                              "bg-indigo-900": event.type === "prompt",
-                              "bg-orange-900": event.type === "response",
-                            })}
+                            className={cs(
+                              "py-0 px-2 text-sm font-normal text-gray-300 rounded-lg",
+                              {
+                                "bg-cyan-900": event.type === "info",
+                                "bg-indigo-900": event.type === "prompt",
+                                "bg-orange-900": event.type === "response",
+                              }
+                            )}
                           >
                             {event.type}
                           </span>
                         </h3>
                         <p
-                          className={cs("text-base text-gray-500", {
-                            "line-clamp-2": event.folded,
+                          className={cs("text-base ", {
+                            "text-gray-500 line-clamp-2": event.folded,
+                            "text-gray-400": !event.folded,
                           })}
                         >
                           {event.message.split("\n").map((line, i) => (
