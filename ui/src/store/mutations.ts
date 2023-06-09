@@ -4,10 +4,12 @@ export const setSessions =
   (rawSessions: Raw.Session[]) =>
   (store: App.Store): App.Store => ({
     ...store,
-    sessions: rawSessions.reverse().map((session) => ({
-      ...session,
-      createdAt: new Date(session.created_at),
-    })),
+    sessions: rawSessions
+      .sort((a, b) => b.id - a.id)
+      .map((session) => ({
+        ...session,
+        createdAt: new Date(session.created_at),
+      })),
   });
 
 export const addSession =
@@ -25,11 +27,11 @@ export const setEvents =
   (store: App.Store): App.Store => ({
     ...store,
     tabs: store.tabs.map((tab) =>
-      tab.sessionId === sessionId
+      tab.sessionId === sessionId && tab.events.length === 0
         ? {
             ...tab,
             events: events
-              .reverse()
+              .sort((a, b) => b.id - a.id)
               .map((event) => ({ ...event, folded: true })),
           }
         : tab

@@ -4,7 +4,6 @@ import { useStore } from "@/store";
 import { Modal } from "@/components/Model";
 import { Topbar } from "@/components/Topbar";
 import * as M from "@/store/mutations";
-import "./styles.css";
 
 let isMounted = false; // check if need for prod
 
@@ -27,13 +26,13 @@ export const App = () => {
   }, []);
 
   return (
-    <div className="w-screen h-screen overflow-x-hidden overflow-y-auto relative">
+    <div className="w-screen h-screen relative">
       <Topbar />
-      <div className="w-full flex">
+      <div className="w-full h-[calc(100vh-3.5rem)] flex">
         {store.tabs.map((tab) => {
           return (
             <div key={tab.id} className="flex-1">
-              <div className="p-8 text-left flex flex-col space-y-8">
+              <div className="h-full text-left flex flex-col space-y-8 overflow-y-auto">
                 {tab.events.map((event, i) => (
                   <div
                     key={event.id}

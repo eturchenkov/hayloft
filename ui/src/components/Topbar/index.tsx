@@ -7,7 +7,7 @@ export const Topbar: FC = () => {
   const { store, mutateStore } = useStore();
 
   return (
-    <div className="w-full bg-base-200 flex relative">
+    <div className="w-full bg-base-200 flex">
       {store.tabs.map((tab) => {
         const sessionName =
           store.sessions.find((s) => s.id === tab.sessionId)?.name ?? "";
