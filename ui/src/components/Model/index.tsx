@@ -16,7 +16,7 @@ export const Modal = () => {
         ref={ref}
         className="w-[32rem] max-h-[90%] p-4 rounded-2xl left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] absolute bg-base-100 border border-slate-800 overflow-y-auto"
       >
-        <h2 className="mb-4 text-lg font-medium">Sessions</h2>
+        <h2 className="mb-4 text-lg text-center font-medium">Sessions</h2>
         {store.sessions.map((session) => (
           <div
             key={session.id}

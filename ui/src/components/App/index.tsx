@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { service } from "@/service";
 import { useStore } from "@/store";
+import cs from "classnames";
 import { Modal } from "@/components/Model";
 import { Topbar } from "@/components/Topbar";
 import * as M from "@/store/mutations";
@@ -33,26 +34,30 @@ export const App = () => {
           return (
             <div key={tab.id} className="flex-1">
               <div className="h-full text-left flex flex-col space-y-8 overflow-y-auto">
-                {tab.events.map((event, i) => (
-                  <div
-                    key={event.id}
-                    className="card w-1/2 p-0 border border-slate-700 shadow-xl"
-                  >
-                    <div className="card-body p-6 divide-y divide-slate-700">
-                      <h3 className="card-title">{`${tab.events.length - i}. [${
-                        event.type
-                      }] ${event.title}`}</h3>
-                      <p className="pt-4 text-sm">
-                        {event.message.split("\n").map((line, i) => (
-                          <span key={i}>
-                            {line}
-                            <br />
-                          </span>
-                        ))}
-                      </p>
+                <div
+                  className={cs("p-4", { "w-1/2": store.tabs.length === 1 })}
+                >
+                  {tab.events.map((event, i) => (
+                    <div
+                      key={event.id}
+                      className="card p-0 mb-4 border border-slate-700 shadow-xl"
+                    >
+                      <div className="card-body p-6 divide-y divide-slate-700">
+                        <h3 className="card-title">{`${
+                          tab.events.length - i
+                        }. [${event.type}] ${event.title}`}</h3>
+                        <p className="pt-4 text-sm">
+                          {event.message.split("\n").map((line, i) => (
+                            <span key={i}>
+                              {line}
+                              <br />
+                            </span>
+                          ))}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           );
