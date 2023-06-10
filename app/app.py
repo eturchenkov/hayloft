@@ -1,9 +1,10 @@
-from flask import request, jsonify, send_file, send_from_directory, Response
+from flask import request, jsonify, send_file, send_from_directory, Response, cli
 from flask_cors import CORS
 from schema import app, db, sse, Event, Session
 import time
 
 CORS(app) # for development
+cli.show_server_banner = lambda *x: None
 
 @app.route('/', methods=['GET'])
 def index():
@@ -82,3 +83,6 @@ def listen():
             msg = messages.get()
             yield msg
     return Response(stream(), mimetype='text/event-stream')
+
+if __name__ == '__main__':
+    app.run(host="localhost", port=7000, debug=False)

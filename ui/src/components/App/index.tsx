@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { service } from "@/service";
+import { buildEventSource } from "@/service/agent";
 import { useStore } from "@/store";
 import cs from "classnames";
 import { Modal } from "@/components/Model";
@@ -17,7 +18,7 @@ export const App = () => {
       service
         .getSessions()
         .then((sessions) => mutateStore(M.setSessions(sessions)));
-      const source = new EventSource("http://localhost:5000/listen");
+      const source = buildEventSource();
       source.addEventListener("stream", (e) => {
         const streamObj = JSON.parse(e.data) as Raw.StreamObj;
         if (streamObj.session) mutateStore(M.addSession(streamObj.session));
