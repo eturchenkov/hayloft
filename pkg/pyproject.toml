@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "hayloft"
+version = "0.1.2"
+description = "UI tool for LLM frameworks"
+authors = []
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^2.3.2"
+flask-cors = "^3.0.10"
+flask-sqlalchemy = "^3.0.3"
+nanoid = "^2.0.0"
+requests = "^2.31.0"
+
+[tool.poetry.scripts]
+hayloft = "hayloft.app:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

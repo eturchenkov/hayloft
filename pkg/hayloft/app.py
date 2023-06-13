@@ -1,6 +1,7 @@
 from flask import request, jsonify, send_file, send_from_directory, Response, cli
 from flask_cors import CORS
-from schema import app, db, sse, Event, Session
+from hayloft.schema import app, db, sse, Event, Session
+import argparse
 import time
 
 CORS(app)  # for development
@@ -104,5 +105,10 @@ def listen():
     return Response(stream(), mimetype="text/event-stream")
 
 
-if __name__ == "__main__":
-    app.run(host="localhost", port=7000, debug=False)
+def cli():
+    parser = argparse.ArgumentParser(description="Hayloft - UI tool for LLM frameworks")
+    parser.add_argument("command", type=str, help="command to run", choices=["start"])
+    args = parser.parse_args()
+
+    if args.command == "start":
+        app.run(host="localhost", port=7000, debug=False)
