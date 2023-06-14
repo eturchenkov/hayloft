@@ -1,6 +1,6 @@
 # Hayloft
 
-UI tool for LLM frameworks to make easy prompt/response tracking, store and comparison of different sessions.
+UI tool for LLM frameworks to make easy prompt/completion tracking, store and comparison of different sessions.
 
 Install package with pip
 

@@ -1,11 +1,10 @@
-from flask import request, jsonify, send_file, send_from_directory, Response, cli
+from flask import request, jsonify, send_file, send_from_directory, Response
 from flask_cors import CORS
 from hayloft.schema import app, db, sse, Event, Session
 import argparse
 import time
 
 CORS(app)  # for development
-cli.show_server_banner = lambda *x: None
 
 
 @app.route("/", methods=["GET"])
