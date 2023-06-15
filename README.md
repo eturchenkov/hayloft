@@ -35,4 +35,4 @@ Go to browser and open [http://localhost:7000](http://localhost:7000). Start bab
 python babyagi.py
 ```
 
-Go to back to browser and select first session from session list that is stream session of current BabyAGI execution. All session stored and you can explore them at any time.
+Go to back to browser and select first session from session list that is stream session of current BabyAGI execution. All sessions will be stored and you can explore them at any time.
