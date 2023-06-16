@@ -1,12 +1,13 @@
 import { useStore } from "@/store";
 import { useClickAway } from "@/hooks";
-import { format } from "date-fns/esm/fp";
+import { format, differenceInSeconds } from "date-fns/esm/fp";
 import * as M from "@/store/mutations";
 import { service } from "@/service";
 
 export const Modal = () => {
   const { store, mutateStore } = useStore();
   const ref = useClickAway(() => mutateStore(M.closeModal));
+  const now = new Date();
 
   return Boolean(store.sessionSelecting.tabId) ? (
     <>
@@ -30,7 +31,11 @@ export const Modal = () => {
                 }}
               >
                 <p className="grow">{session.name}</p>
-                <p className="flex-none">{dateFormat(session.createdAt)}</p>
+                <p className="flex-none">
+                  {differenceInSeconds(session.createdAt)(now) > 15
+                    ? dateFormat(session.createdAt)
+                    : "now"}
+                </p>
               </div>
             ))}
           </div>

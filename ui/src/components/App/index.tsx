@@ -69,6 +69,7 @@ export const App = () => {
                               "py-0 px-2 text-sm font-normal text-gray-300 rounded-lg",
                               {
                                 "bg-cyan-900": event.type === "info",
+                                "bg-rose-900": event.type === "error",
                                 "bg-indigo-900": event.type === "prompt",
                                 "bg-orange-900": event.type === "completion",
                               }
@@ -83,12 +84,16 @@ export const App = () => {
                             "text-gray-400": !event.folded,
                           })}
                         >
-                          {event.message.split("\n").map((line, i) => (
-                            <span key={i}>
-                              {line}
-                              <br />
-                            </span>
-                          ))}
+                          {event.message
+                            .replace(/^[\n]+/, "")
+                            .replace(/[\n]+$/, "")
+                            .split("\n")
+                            .map((line, i) => (
+                              <span key={i}>
+                                {line}
+                                <br />
+                              </span>
+                            ))}
                         </p>
                       </div>
                     </div>
