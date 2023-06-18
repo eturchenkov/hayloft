@@ -1,6 +1,7 @@
 from flask import request, jsonify, send_file, send_from_directory, Response
 from flask_cors import CORS
 from hayloft.schema import app, db, sse, Event, Session
+from importlib.metadata import version
 import argparse
 import time
 
@@ -107,6 +108,7 @@ def listen():
 def cli():
     parser = argparse.ArgumentParser(description="Hayloft - UI tool for LLM frameworks")
     parser.add_argument("command", type=str, help="command to run", choices=["start"])
+    parser.add_argument("-v", "--version", action="version", version=version(__package__))
     args = parser.parse_args()
 
     if args.command == "start":

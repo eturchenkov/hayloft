@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hayloft"
-version = "0.1.6"
+version = "0.1.7"
 description = "UI tool for LLM frameworks"
 authors = []
 readme = "README.md"
