@@ -70,6 +70,7 @@ export const App = () => {
                               {
                                 "bg-cyan-900": event.type === "info",
                                 "bg-rose-900": event.type === "error",
+                                "bg-fuchsia-900": event.type === "warning",
                                 "bg-indigo-900": event.type === "prompt",
                                 "bg-orange-900": event.type === "completion",
                               }

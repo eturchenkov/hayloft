@@ -9,7 +9,7 @@ def logger():
     def log(
         title: str = "",
         message: str = "",
-        type: Literal["info", "error", "prompt", "completion"] = "info",
+        type: Literal["info", "prompt", "completion", "warning", "error"] = "info",
     ) -> None:
         requests.post(
             "http://localhost:7000/event",

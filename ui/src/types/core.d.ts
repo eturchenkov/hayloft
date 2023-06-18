@@ -9,7 +9,7 @@ declare global {
       id: number;
       title: string;
       message: string;
-      type: "info" | "error" | "prompt" | "completion";
+      type: "info" | "prompt" | "completion" | "error" | "warning";
       folded: boolean;
     };
   }
