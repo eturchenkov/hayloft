@@ -32,7 +32,31 @@ export const setEvents =
             ...tab,
             events: events
               .sort((a, b) => b.id - a.id)
-              .map((event) => ({ ...event, folded: true })),
+              .map((event) => ({
+                ...event,
+                folded: true,
+                message: trimMessage(event.message),
+              }))
+              .reduce<Core.Event[]>((acc, event, i) => {
+                if (i === 0) {
+                  return [event];
+                } else {
+                  let prevEvent = acc[acc.length - 1];
+                  if (
+                    prevEvent.title === event.title &&
+                    event.message.length < 1000 &&
+                    event.type === "info"
+                  ) {
+                    acc[acc.length - 1] = {
+                      ...prevEvent,
+                      message: `${prevEvent.message}\n${event.message}`,
+                    };
+                    return acc;
+                  } else {
+                    return [...acc, event];
+                  }
+                }
+              }, []),
           }
         : tab
     ),
@@ -46,7 +70,29 @@ export const addEvent =
       tab.sessionId === event.session_id
         ? {
             ...tab,
-            events: [{ ...event, folded: false }, ...tab.events],
+            events:
+              tab.events.length > 0 &&
+              tab.events[0].title === event.title &&
+              event.message.length < 1000 &&
+              event.type === "info"
+                ? tab.events.map((evt, i) =>
+                    i === 0
+                      ? {
+                          ...evt,
+                          message: `${evt.message}\n${trimMessage(
+                            event.message
+                          )}`,
+                        }
+                      : evt
+                  )
+                : [
+                    {
+                      ...event,
+                      folded: false,
+                      message: trimMessage(event.message),
+                    },
+                    ...tab.events,
+                  ],
           }
         : tab
     ),
@@ -109,3 +155,6 @@ export const removeTab =
         ? [{ id: nanoid(), mode: "idle", sessionId: 0, events: [] }]
         : store.tabs.filter((tab) => tab.id !== tabId),
   });
+
+const trimMessage = (message: string): string =>
+  message.replace(/^[\n]+/, "").replace(/[\n]+$/, "");

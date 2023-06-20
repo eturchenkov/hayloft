@@ -85,16 +85,12 @@ export const App = () => {
                             "text-gray-400": !event.folded,
                           })}
                         >
-                          {event.message
-                            .replace(/^[\n]+/, "")
-                            .replace(/[\n]+$/, "")
-                            .split("\n")
-                            .map((line, i) => (
-                              <span key={i}>
-                                {line}
-                                <br />
-                              </span>
-                            ))}
+                          {event.message.split("\n").map((line, i) => (
+                            <span key={i}>
+                              {line}
+                              <br />
+                            </span>
+                          ))}
                         </p>
                       </div>
                     </div>
