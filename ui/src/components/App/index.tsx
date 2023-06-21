@@ -17,7 +17,7 @@ export const App = () => {
       isMounted = true;
       service
         .getSessions()
-        .then((sessions) => mutateStore(M.setSessions(sessions)));
+        .then(({ sessions }) => mutateStore(M.setSessions(sessions)));
       const source = buildEventSource();
       source.addEventListener("stream", (e) => {
         const streamObj = JSON.parse(e.data) as Raw.StreamObj;
