@@ -25,7 +25,7 @@ export const Modal = () => {
                 className="px-4 py-2 select-none rounded-xl text-left flex flex-nowrap cursor-pointer hover:bg-base-200"
                 onClick={() => {
                   mutateStore(M.selectSession(session.id));
-                  service.getEvents(session.id).then((events) => {
+                  service.getEvents(session.id).then(({ events }) => {
                     mutateStore(M.setEvents(session.id, events));
                   });
                 }}

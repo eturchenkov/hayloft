@@ -4,3 +4,4 @@ __pycache__
 dist/
 instance/
 .python-version
+store.db

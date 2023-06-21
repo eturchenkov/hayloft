@@ -15,6 +15,9 @@ flask-cors = "^3.0.10"
 flask-sqlalchemy = "^3.0.4"
 nanoid = "^2.0.0"
 requests = "^2.31.0"
+gevent = "^22.10.2"
+bottle = "^0.12.25"
+peewee = "^3.16.2"
 
 [tool.poetry.scripts]
 hayloft = "hayloft.app:cli"
