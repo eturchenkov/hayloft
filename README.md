@@ -1,4 +1,7 @@
-# Hayloft
+# Hayloft 
+
+[![Downloads](https://static.pepy.tech/badge/hayloft/month)](https://pepy.tech/project/hayloft)
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/eturchenkov.svg?style=social&label=Follow%20%40eturchenkov)](https://twitter.com/eturchenkov)
 
 UI tool for LLM frameworks to make easy prompt/completion tracking, store and comparison of different sessions.
 
