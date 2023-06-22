@@ -5,8 +5,8 @@ class SSE:
     def __init__(self):
         self.listeners = []
 
-    def listen(self):
-        self.listeners.append(queue.Queue(maxsize=10))
+    def listen(self) -> queue.Queue:
+        self.listeners.append(queue.Queue(maxsize=50))
         return self.listeners[-1]
 
     def publish(self, message: dict, type: str):

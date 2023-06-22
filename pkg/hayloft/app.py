@@ -81,7 +81,7 @@ def get_events(session_id):
 def listen():
     response.set_header("Content-Type", "text/event-stream")
     response.set_header("Cache-Control", "no-cache")
-    yield 'retry: 100\n\n' 
+    yield 'retry: 500\n\n' 
     messages = sse.listen()
     
     while True:
