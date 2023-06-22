@@ -19,6 +19,6 @@ class HayloftLogger(logging.Handler):
 
         self.log(title=record.name, message=record.msg, type=type)
 
-def load_hayloft():
+def grab_logs():
     logging.getLogger("llama_index").setLevel(logging.DEBUG)
     logging.getLogger().addHandler(HayloftLogger())
