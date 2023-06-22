@@ -1,6 +1,8 @@
 from peewee import SqliteDatabase, CharField, IntegerField, Model, ForeignKeyField
+from pathlib import Path
 
-db = SqliteDatabase('store.db')
+path = str(Path(__file__).parent.resolve()) 
+db = SqliteDatabase(f'{path}/store.db')
 
 class Session(Model):
     name = CharField(unique=True)

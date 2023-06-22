@@ -1,5 +1,4 @@
 from gevent import monkey; monkey.patch_all()
-from gevent import sleep
 from bottle import app, static_file, request, response, GeventServer
 from hayloft.schema import db, Session, Event
 from hayloft.cors import EnableCors
@@ -88,7 +87,6 @@ def listen():
     while True:
         msg = messages.get()
         yield msg
-        sleep(0.05)
 
 def start():
     db.connect()
