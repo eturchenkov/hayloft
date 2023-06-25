@@ -6,7 +6,7 @@ from nanoid import generate
 
 main_logger = logging.getLogger(__name__)
 
-def logger():
+def logger(server="http://localhost:7000"):
     session = f"session-{generate(size=6)}"
 
     def log(
@@ -16,7 +16,7 @@ def logger():
     ) -> None:
         try:
             requests.post(
-                "http://localhost:7000/event",
+                f"{server}/event",
                 json={"session": session, "title": title, "message": message, "type": type},
             )
         except requests.exceptions.ConnectionError:

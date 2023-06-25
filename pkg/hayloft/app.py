@@ -1,13 +1,15 @@
 from gevent import monkey; monkey.patch_all()
-from bottle import app, static_file, request, response, GeventServer
-from hayloft.schema import db, Session, Event
-from hayloft.cors import EnableCors
-from hayloft.sse import sse
+import argparse
+import time
 from importlib.metadata import version
 from pathlib import Path
 from typing import Dict
-import argparse
-import time
+
+from bottle import GeventServer, app, request, response, static_file
+
+from hayloft.cors import EnableCors
+from hayloft.schema import Event, Session, db
+from hayloft.sse import sse
 
 app = app()
 app.install(EnableCors()) 
@@ -88,22 +90,24 @@ def listen():
         msg = messages.get()
         yield msg
 
-def start():
+def start(host="localhost", port=7000):
     db.connect()
     db.create_tables([Session, Event])
 
-    print(f'\033[96mHayloft {version(__package__)} starting up, open in your browser http://localhost:7000\033[0m')
+    print(f'\033[96mHayloft {version(__package__)} starting up, open in your browser http://{host}:{port}\033[0m')
     print("Hit Ctrl-C to quit.")
-    app.run(host='localhost', port=7000, server=GeventServer, quiet=True)
+    app.run(host=host, port=port, server=GeventServer, quiet=True)
 
 def cli():
     parser = argparse.ArgumentParser(description="Hayloft - UI tool for LLM frameworks")
     parser.add_argument("command", type=str, help="command to run", choices=["start"])
     parser.add_argument("-v", "--version", action="version", version=version(__package__))
+    parser.add_argument("--host", help="host of the hayloft server", default="localhost")
+    parser.add_argument("--port", help="port of the hayloft server", type=int, default=7000)
     args = parser.parse_args()
 
     if args.command == "start":
-        start()
+        start(host=args.host, port=args.port)
 
 if __name__ == '__main__':
     start()

@@ -1,4 +1,4 @@
-const host = "http://localhost:7000";
+const host = import.meta.env.DEV ? "http://localhost:7000" : "";
 
 export const agent = async (
   method: "POST" | "GET" | "PUT" | "DELETE",
