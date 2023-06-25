@@ -12,7 +12,7 @@ pip install hayloft
 ```
 ### Usage for LlamaIndex
 
-https://github.com/eturchenkov/hayloft/assets/49445761/ee537ed1-1a97-454d-9d11-7a494c1b2ba5
+https://github.com/eturchenkov/hayloft/assets/49445761/c4f5aece-be4c-493f-8f36-b5adedafecf9
 
 Install llama_index and hayloft packages, create ```example.py``` file as below. Put [examples](https://github.com/jerryjliu/llama_index/tree/main/examples) folder from llama_index repo near the file.
 ```python
