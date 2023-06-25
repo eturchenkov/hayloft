@@ -2,6 +2,7 @@
 
 [![Downloads](https://static.pepy.tech/badge/hayloft/month)](https://pepy.tech/project/hayloft)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/eaturchenkov.svg?style=social&label=Follow%20%40eaturchenkov)](https://twitter.com/eaturchenkov)
+[![](https://dcbadge.vercel.app/api/server/EKewT5cYMy?compact=true&style=flat)](https://discord.gg/EKewT5cYMy)
 
 UI tool for LLM frameworks to make easy prompt/completion tracking, store and comparison of different sessions.
 
