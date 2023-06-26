@@ -1,3 +1,4 @@
+import * as R from "remeda";
 import { nanoid } from "nanoid";
 
 export const setSessions =
@@ -20,6 +21,32 @@ export const addSession =
       { ...rawSession, createdAt: new Date(rawSession.created_at) },
       ...store.sessions,
     ],
+  });
+
+export const updateSession =
+  (rawSession: Raw.Session) =>
+  (store: App.Store): App.Store => ({
+    ...store,
+    sessions: store.sessions.map((session) =>
+      session.id === rawSession.id
+        ? { ...session, name: rawSession.name }
+        : session
+    ),
+  });
+
+export const removeSession =
+  (sessionId: number) =>
+  (store: App.Store): App.Store => ({
+    ...store,
+    sessions: store.sessions.filter((session) => session.id !== sessionId),
+    tabs: R.pipe(
+      store.tabs,
+      R.filter((tab) => tab.sessionId !== sessionId),
+      (tabs) =>
+        tabs.length === 0
+          ? [{ id: nanoid(), mode: "idle", sessionId: 0, events: [] }]
+          : tabs
+    ),
   });
 
 export const setEvents =
