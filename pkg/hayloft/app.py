@@ -4,12 +4,10 @@ import time
 from importlib.metadata import version
 from pathlib import Path
 from typing import Dict
-
 from bottle import GeventServer, app, request, response, static_file
-
-from hayloft.cors import EnableCors
-from hayloft.schema import Event, Session, db
-from hayloft.sse import sse
+from cors import EnableCors
+from schema import Event, Session, db
+from sse import sse
 
 app = app()
 app.install(EnableCors()) 
@@ -68,6 +66,28 @@ def create_event():
 def get_sessions():
     sessions = Session.select()
     return {"sessions": [{"id": s.id, "name": s.name, "created_at": s.created_at} for s in sessions]} 
+
+@app.put("/sessions/<session_id:int>")
+def update_session(session_id):
+    body = request.json
+    session_name = body.get("name")
+    try:
+        session = Session.select().where(Session.id == session_id).get()
+        session.name = session_name
+        session.save()
+        return {"id": session.id, "name": session.name, "created_at": session.created_at}
+    except:
+        return {}
+
+@app.delete("/sessions/<session_id:int>")
+def remove_session(session_id):
+    try:
+        session = Session.get(Session.id == session_id) 
+        session.delete_instance(recursive=True)
+        return {"id": session_id}
+    except:
+        return {"id": 0}
+    
 
 @app.get("/sessions/<session_id:int>/events")
 def get_events(session_id):
