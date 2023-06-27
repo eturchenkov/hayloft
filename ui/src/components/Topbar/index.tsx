@@ -1,6 +1,10 @@
 import { useStore } from "@/store";
 import * as M from "@/store/mutations";
-import { XMarkIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import {
+  XMarkIcon,
+  PlusSmallIcon,
+  ChevronDoubleUpIcon,
+} from "@heroicons/react/24/outline";
 import type { FC } from "react";
 
 export const Topbar: FC = () => {
@@ -28,6 +32,12 @@ export const Topbar: FC = () => {
                     </p>
                   )}
                   <span>{sessionName}</span>
+                  <span
+                    className="pt-1 tooltip tooltip-right hover:tooltip-open cursor-pointer"
+                    data-tip="Eager mode"
+                  >
+                    <ChevronDoubleUpIcon className="h-5 w-5 text-gray-500" />
+                  </span>
                 </div>
               </div>
             );

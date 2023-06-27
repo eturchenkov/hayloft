@@ -62,7 +62,7 @@ def create_event():
     sse.publish(msg, type="stream")
     return "OK"
 
-@app.route('/sessions', methods=['GET', 'OPTIONS'])
+@app.get('/sessions')
 def get_sessions():
     sessions = Session.select()
     return {"sessions": [{"id": s.id, "name": s.name, "created_at": s.created_at} for s in sessions]} 
