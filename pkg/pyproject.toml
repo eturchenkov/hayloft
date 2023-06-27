@@ -15,6 +15,7 @@ requests = "^2.31.0"
 gevent = "^22.10.2"
 bottle = "^0.12.25"
 peewee = "^3.16.2"
+bottle-cors-plugin = "^0.1.9"
 
 [tool.poetry.scripts]
 hayloft = "hayloft.app:cli"

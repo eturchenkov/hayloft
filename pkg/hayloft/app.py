@@ -5,12 +5,12 @@ from importlib.metadata import version
 from pathlib import Path
 from typing import Dict
 from bottle import GeventServer, app, request, response, static_file
-from cors import EnableCors
+from bottle_cors_plugin import cors_plugin
 from schema import Event, Session, db
 from sse import sse
 
 app = app()
-app.install(EnableCors()) 
+app.install(cors_plugin("*"))
 path = str(Path(__file__).parent.resolve()) 
 
 @app.get("/")
@@ -62,7 +62,7 @@ def create_event():
     sse.publish(msg, type="stream")
     return "OK"
 
-@app.get('/sessions')
+@app.route('/sessions', methods=['GET', 'OPTIONS'])
 def get_sessions():
     sessions = Session.select()
     return {"sessions": [{"id": s.id, "name": s.name, "created_at": s.created_at} for s in sessions]} 

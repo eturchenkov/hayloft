@@ -12,6 +12,20 @@ files = [
 ]
 
 [[package]]
+name = "bottle-cors-plugin"
+version = "0.1.9"
+description = "The easiest way to use cors on bottle"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "bottle-cors-plugin-0.1.9.tar.gz", hash = "sha256:22e5d247700bf9c56caf9aa14fda5534efa00c2d9c1c3e80bc479acd66a907d4"},
+    {file = "bottle_cors_plugin-0.1.9-py3-none-any.whl", hash = "sha256:3056ea85efa655585748ec4c56b3d2480e715649e1e015da8f1287bb1b62fbf6"},
+]
+
+[package.dependencies]
+bottle = ">=0.12"
+
+[[package]]
 name = "certifi"
 version = "2023.5.7"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -495,4 +509,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "9dbadd2870933aad5dd2b1c7951c6fe4ae89df185b69d73e0a247c1b00150886"
+content-hash = "ab01182398704320fb8dd5eef751ce803b71ff6a4a079ccda45f7d263ca64382"
