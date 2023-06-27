@@ -42,99 +42,64 @@ export const removeSession =
     tabs: R.pipe(
       store.tabs,
       R.filter((tab) => tab.sessionId !== sessionId),
-      (tabs) =>
-        tabs.length === 0
-          ? [{ id: nanoid(), mode: "idle", sessionId: 0, events: [] }]
-          : tabs
+      (tabs) => (tabs.length === 0 ? [buildEmptyTab()] : tabs)
     ),
   });
 
 export const setEvents =
   (sessionId: number, events: Raw.Event[]) =>
-  (store: App.Store): App.Store => ({
-    ...store,
-    tabs: store.tabs.map((tab) =>
-      tab.sessionId === sessionId && tab.events.length === 0
-        ? {
-            ...tab,
-            events: events
-              .sort((a, b) => b.id - a.id)
-              .map((event) => ({
-                ...event,
-                folded: true,
-                message: trimMessage(event.message),
-              }))
-              .reduce<Core.Event[]>((acc, event, i) => {
-                if (i === 0) {
-                  return [event];
-                } else {
-                  let prevEvent = acc[acc.length - 1];
-                  if (
-                    prevEvent.title === event.title &&
-                    event.message.length < 1000 &&
-                    event.type === "info"
-                  ) {
-                    acc[acc.length - 1] = {
-                      ...prevEvent,
-                      message: `${prevEvent.message}\n${event.message}`,
-                    };
-                    return acc;
-                  } else {
-                    return [...acc, event];
-                  }
-                }
-              }, []),
-          }
-        : tab
-    ),
-  });
+  (store: App.Store): App.Store => {
+    const nextEvents = events
+      .map((event) => ({
+        ...event,
+        message: trimMessage(event.message),
+      }))
+      .sort((a, b) => a.id - b.id);
+    return {
+      ...store,
+      tabs: store.tabs.map((tab) =>
+        tab.sessionId === sessionId && tab.events.length === 0
+          ? {
+              ...tab,
+              events: nextEvents,
+              records: buildRecords(nextEvents, tab.eagerMode),
+            }
+          : tab
+      ),
+    };
+  };
 
 export const addEvent =
   (event: Raw.Event) =>
-  (store: App.Store): App.Store => ({
-    ...store,
-    tabs: store.tabs.map((tab) =>
-      tab.sessionId === event.session_id
-        ? {
-            ...tab,
-            events:
-              tab.events.length > 0 &&
-              tab.events[0].title === event.title &&
-              event.message.length < 1000 &&
-              event.type === "info"
-                ? tab.events.map((evt, i) =>
-                    i === 0
-                      ? {
-                          ...evt,
-                          message: `${evt.message}\n${trimMessage(
-                            event.message
-                          )}`,
-                        }
-                      : evt
-                  )
-                : [
-                    {
-                      ...event,
-                      folded: false,
-                      message: trimMessage(event.message),
-                    },
-                    ...tab.events,
-                  ],
-          }
-        : tab
-    ),
-  });
+  (store: App.Store): App.Store => {
+    const nextEvent = {
+      ...event,
+      message: trimMessage(event.message),
+    };
+    return {
+      ...store,
+      tabs: store.tabs.map((tab) =>
+        tab.sessionId === event.session_id
+          ? {
+              ...tab,
+              events: [...tab.events, nextEvent],
+              records: upsertRecord(nextEvent, tab),
+            }
+          : tab
+      ),
+    };
+  };
 
 export const toggleFold =
-  (tabId: string, eventId: number) =>
+  (tabId: string, recordId: number) =>
   (store: App.Store): App.Store => ({
     ...store,
     tabs: store.tabs.map((tab) =>
       tab.id === tabId
         ? {
             ...tab,
-            events: tab.events.map((event) =>
-              event.id === eventId ? { ...event, folded: !event.folded } : event
+            records: tab.records.map((r, i) =>
+              i === recordId ? { ...r, folded: !r.folded } : r
             ),
           }
         : tab
@@ -167,11 +132,23 @@ export const selectSession =
 
 export const addTab = (store: App.Store): App.Store => ({
   ...store,
-  tabs: [
-    ...store.tabs,
-    { id: nanoid(), mode: "idle", sessionId: 0, events: [] },
-  ],
+  tabs: [...store.tabs, buildEmptyTab()],
 });
+
+export const toggleEagerMode =
+  (tabId: string) =>
+  (store: App.Store): App.Store => ({
+    ...store,
+    tabs: store.tabs.map((tab) =>
+      tab.id === tabId
+        ? {
+            ...tab,
+            records: buildRecords(tab.events, !tab.eagerMode),
+            eagerMode: !tab.eagerMode,
+          }
+        : tab
+    ),
+  });
 
 export const removeTab =
   (tabId: string) =>
@@ -179,9 +156,63 @@ export const removeTab =
     ...store,
     tabs:
       store.tabs.length === 1
-        ? [{ id: nanoid(), mode: "idle", sessionId: 0, events: [] }]
+        ? [buildEmptyTab()]
         : store.tabs.filter((tab) => tab.id !== tabId),
   });
 
+const buildEmptyTab = (): App.Tab => ({
+  id: nanoid(),
+  mode: "idle",
+  sessionId: 0,
+  events: [],
+  records: [],
+  eagerMode: true,
+});
+
 const trimMessage = (message: string): string =>
   message.replace(/^[\n]+/, "").replace(/[\n]+$/, "");
+
+const upsertRecord = (event: Raw.Event, tab: App.Tab): Core.Record[] => {
+  if (
+    tab.eagerMode &&
+    tab.events.length > 0 &&
+    tab.events[tab.events.length - 1].title === event.title &&
+    event.message.length < 1000 &&
+    tab.events[tab.events.length - 1].type === "info" &&
+    event.type === "info"
+  ) {
+    return tab.records.map((record, i) =>
+      i === 0 ? { indexes: [...record.indexes, i], folded: false } : record
+    );
+  } else {
+    return [{ indexes: [tab.events.length], folded: false }, ...tab.records];
+  }
+};
+
+const buildRecords = (events: Raw.Event[], eagerMode: boolean): Core.Record[] =>
+  eagerMode
+    ? events.reduceRight<Core.Record[]>((acc, event, i) => {
+        if (i === events.length - 1) {
+          return [{ indexes: [i], folded: true }];
+        } else {
+          let prevEvent = events[i + 1];
+          if (
+            prevEvent.title === event.title &&
+            event.message.length < 1000 &&
+            prevEvent.type === "info" &&
+            event.type === "info"
+          ) {
+            let prevReport = acc[acc.length - 1];
+            acc[acc.length - 1] = {
+              indexes: [...prevReport.indexes, i],
+              folded: true,
+            };
+            return acc;
+          } else {
+            return [...acc, { indexes: [i], folded: true }];
+          }
+        }
+      }, [])
+    : events.map((_, i) => ({ indexes: [i], folded: true })).reverse();
+
+// message: `${prevEvent.message}\n${event.message}`,

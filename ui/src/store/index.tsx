@@ -6,7 +6,16 @@ export const StoreContext = createContext<ContextType | null>(null);
 
 export const StoreProvider: FC<{ children: ReactElement }> = ({ children }) => {
   const [store, mutateStore] = useState<App.Store>({
-    tabs: [{ id: nanoid(), mode: "idle", sessionId: 0, events: [] }],
+    tabs: [
+      {
+        id: nanoid(),
+        mode: "idle",
+        sessionId: 0,
+        events: [],
+        records: [],
+        eagerMode: true,
+      },
+    ],
     sessionSelecting: { tabId: "" },
     sessions: [],
   });
