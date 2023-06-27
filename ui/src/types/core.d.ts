@@ -5,11 +5,8 @@ declare global {
       name: string;
       createdAt: Date;
     };
-    type Event = {
-      id: number;
-      title: string;
-      message: string;
-      type: "info" | "prompt" | "completion" | "error" | "warning";
+    type Record = {
+      indexes: number[];
       folded: boolean;
     };
   }

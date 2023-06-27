@@ -11,7 +11,9 @@ declare global {
       id: string;
       mode: "idle" | "session";
       sessionId: number;
-      events: Core.Event[];
+      events: Raw.Event[];
+      records: Core.Record[];
+      eagerMode: boolean;
     };
   }
 }

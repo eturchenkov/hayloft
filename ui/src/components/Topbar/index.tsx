@@ -1,5 +1,6 @@
 import { useStore } from "@/store";
 import * as M from "@/store/mutations";
+import cs from "classnames";
 import {
   XMarkIcon,
   PlusSmallIcon,
@@ -32,12 +33,22 @@ export const Topbar: FC = () => {
                     </p>
                   )}
                   <span>{sessionName}</span>
-                  <span
-                    className="pt-1 tooltip tooltip-right hover:tooltip-open cursor-pointer"
-                    data-tip="Eager mode"
-                  >
-                    <ChevronDoubleUpIcon className="h-5 w-5 text-gray-500" />
-                  </span>
+                  {isEagerModeNeeded(tab) && (
+                    <span
+                      className="pt-0.5 tooltip tooltip-right hover:tooltip-open cursor-pointer"
+                      data-tip={`Eager mode turned ${
+                        tab.eagerMode ? "on" : "off"
+                      }`}
+                      onClick={() => mutateStore(M.toggleEagerMode(tab.id))}
+                    >
+                      <ChevronDoubleUpIcon
+                        className={cs("h-5 w-5", {
+                          "text-gray-200": tab.eagerMode,
+                          "text-gray-500": !tab.eagerMode,
+                        })}
+                      />
+                    </span>
+                  )}
                 </div>
               </div>
             );
@@ -77,3 +88,6 @@ export const Topbar: FC = () => {
     </div>
   );
 };
+
+const isEagerModeNeeded = (tab: App.Tab): boolean =>
+  tab.events.some((e, i, arr) => i > 0 && e.title === arr[i - 1].title);
