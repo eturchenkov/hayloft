@@ -3,11 +3,11 @@ import argparse
 import time
 from importlib.metadata import version
 from pathlib import Path
-from typing import Dict
 from bottle import GeventServer, app, request, response, static_file
 from bottle_cors_plugin import cors_plugin
-from schema import Event, Session, db
-from sse import sse
+from hayloft.schema import Event, Session, db
+from hayloft.sse import sse
+from typing import Dict
 
 app = app()
 app.install(cors_plugin("*"))
