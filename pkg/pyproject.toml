@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hayloft"
-version = "0.2.7"
+version = "0.3.1"
 description = "UI tool for LLM frameworks"
 authors = []
 license = "MIT"

@@ -182,7 +182,9 @@ const upsertRecord = (event: Raw.Event, tab: App.Tab): Core.Record[] => {
     event.type === "info"
   ) {
     return tab.records.map((record, i) =>
-      i === 0 ? { indexes: [...record.indexes, i], folded: false } : record
+      i === 0
+        ? { indexes: [tab.events.length, ...record.indexes], folded: false }
+        : record
     );
   } else {
     return [{ indexes: [tab.events.length], folded: false }, ...tab.records];
@@ -198,7 +200,7 @@ const buildRecords = (events: Raw.Event[], eagerMode: boolean): Core.Record[] =>
           let prevEvent = events[i + 1];
           if (
             prevEvent.title === event.title &&
-            event.message.length < 1000 &&
+            prevEvent.message.length < 1000 &&
             prevEvent.type === "info" &&
             event.type === "info"
           ) {
@@ -214,5 +216,3 @@ const buildRecords = (events: Raw.Event[], eagerMode: boolean): Core.Record[] =>
         }
       }, [])
     : events.map((_, i) => ({ indexes: [i], folded: true })).reverse();
-
-// message: `${prevEvent.message}\n${event.message}`,
