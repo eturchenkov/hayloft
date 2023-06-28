@@ -1,20 +1,31 @@
 # Hayloft 
 
 [![Downloads](https://static.pepy.tech/badge/hayloft/month)](https://pepy.tech/project/hayloft)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/eaturchenkov.svg?style=social&label=Follow%20%40eaturchenkov)](https://twitter.com/eaturchenkov)
 [![](https://dcbadge.vercel.app/api/server/EKewT5cYMy?compact=true&style=flat)](https://discord.gg/EKewT5cYMy)
+[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/eaturchenkov.svg?style=social&label=Follow%20%40eaturchenkov)](https://twitter.com/eaturchenkov)
 
 UI tool for LLM frameworks to make easy prompt/completion tracking, store and comparison of different sessions.
+
+https://github.com/eturchenkov/hayloft/assets/49445761/c4f5aece-be4c-493f-8f36-b5adedafecf9
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [LlamaIndex](#llamaindex)
+  - [BabyAGI](#babyagi)
+
+## Installation
 
 Install package with pip
 ```
 pip install hayloft
 ```
-### Usage for LlamaIndex
 
-https://github.com/eturchenkov/hayloft/assets/49445761/c4f5aece-be4c-493f-8f36-b5adedafecf9
+## Usage
+
+### LlamaIndex
 
 Install llama_index and hayloft packages, create ```example.py``` file as below. Put [examples](https://github.com/jerryjliu/llama_index/tree/main/examples) folder from llama_index repo near the file.
+
 ```python
 import os
 os.environ["OPENAI_API_KEY"] = 'YOUR_OPENAI_API_KEY'
@@ -39,9 +50,7 @@ python example.py
 ```
 Trace logs of your script on [http://localhost:7000](http://localhost:7000)
 
-### Usage for BabyAGI
-
-https://github.com/eturchenkov/hayloft/assets/49445761/bdbd11c2-ff94-4ab0-b664-bba0cf3d2b7b
+### BabyAGI
 
 Clone BabyAGI fork repo, setup virtual env and install all dependencies
 
