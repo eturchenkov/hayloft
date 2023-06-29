@@ -22,9 +22,17 @@ pip install hayloft
 
 ## Usage
 
+Start hayloft server
+
+```
+hayloft start
+```
+
+Trace logs of your script on [http://localhost:7000](http://localhost:7000)
+
 ### LlamaIndex
 
-Install llama_index and hayloft packages, create ```example.py``` file as below. Put [examples](https://github.com/jerryjliu/llama_index/tree/main/examples) folder from llama_index repo near the file.
+Install llama_index and hayloft packages, create `example.py` file as below. Put [examples](https://github.com/jerryjliu/llama_index/tree/main/examples) folder from llama_index repo near the file.
 
 ```python
 import os
@@ -40,33 +48,24 @@ index = VectorStoreIndex.from_documents(documents)
 query_engine = index.as_query_engine()
 query_engine.query("What did the author do growing up?")
 ```
-Start hayloft server
-```
-hayloft start
-```
+
 Start this script
+
 ```
 python example.py
 ```
-Trace logs of your script on [http://localhost:7000](http://localhost:7000)
 
 ### BabyAGI
 
 Clone BabyAGI fork repo, setup virtual env and install all dependencies
 
 ```
-git clone git@github.com:eturchenkov/babyagi-hayloft.git
-cd babyagi-hayloft
-python -m venv .
-source ./bin/activate
+git clone git@github.com:eturchenkov/babyagi-hayloft.git && cd babyagi-hayloft
 pip install -r requirements.txt
 ```
-Adjust config in .env file and start hayloft server
-```
-hayloft start
-```
-Go to browser and open [http://localhost:7000](http://localhost:7000) and start babyagi.py script
+
+Adjust config in .env file and start `babyagi.py` script
+
 ```
 python babyagi.py
 ```
-Go to back to browser and select first session from session list that is stream session of current BabyAGI execution. All sessions will be stored and you can explore them at any time.
