@@ -12,6 +12,7 @@ from typing import Dict
 app = app()
 app.install(cors_plugin("*"))
 path = str(Path(__file__).parent.resolve()) 
+curr_session = None
 
 @app.get("/")
 def index():
@@ -30,6 +31,10 @@ def create_event():
     type = body.get("type")
     event: Event | None = None
     new_session: Session | None = None
+
+    if body.get("mode") == "live":
+        global curr_session
+        curr_session = session_name 
 
     try:
         session = Session.select().where(Session.name == session_name).get()
