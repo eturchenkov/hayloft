@@ -73,6 +73,12 @@ export const Topbar: FC = () => {
                       {store.sessions.length}
                     </span>
                   </p>
+                  <p
+                    className="cursor-pointer"
+                    onClick={() => mutateStore(M.setTabMode(tab.id, "query"))}
+                  >
+                    Live
+                  </p>
                 </div>
               </div>
             );

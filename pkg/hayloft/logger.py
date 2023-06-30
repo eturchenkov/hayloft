@@ -1,8 +1,9 @@
 import logging
+import threading
 import requests
 from nanoid import generate
 from typing import Literal
-from hayloft.app import curr_session
+from app import curr_session
 
 main_logger = logging.getLogger(__name__)
 
@@ -15,6 +16,8 @@ def logger(server="http://localhost:7000"):
         type: Literal["info", "prompt", "completion", "warning", "error"] = "info",
     ) -> None:
         session_name = curr_session if curr_session is not None else session
+        threadName = threading.current_thread().getName()
+        session_name = threadName if threadName != "MainThread" else session
         try:
             requests.post(
                 f"{server}/event",

@@ -4,7 +4,7 @@ import cs from "classnames";
 import * as M from "@/store/mutations";
 import type { FC } from "react";
 
-export const Tab: FC<{ tabIndex: number }> = ({ tabIndex }) => {
+export const RecordList: FC<{ tabIndex: number }> = ({ tabIndex }) => {
   const { store, mutateStore } = useStore();
   const tab = store.tabs[tabIndex];
   const records = useMemo(
@@ -19,7 +19,7 @@ export const Tab: FC<{ tabIndex: number }> = ({ tabIndex }) => {
   );
 
   return (
-    <div className={cs("p-4", { "lg:w-1/2": store.tabs.length === 1 })}>
+    <>
       {records.map((record, i) => (
         <div
           key={i}
@@ -73,6 +73,6 @@ export const Tab: FC<{ tabIndex: number }> = ({ tabIndex }) => {
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 };

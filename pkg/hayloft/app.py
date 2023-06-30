@@ -1,18 +1,19 @@
 from gevent import monkey; monkey.patch_all()
 import argparse
 import time
+import requests
 from importlib.metadata import version
 from pathlib import Path
 from bottle import GeventServer, app, request, response, static_file
 from bottle_cors_plugin import cors_plugin
-from hayloft.schema import Event, Session, db
-from hayloft.sse import sse
+from schema import Event, Session, db
+from sse import sse
 from typing import Dict
 
 app = app()
 app.install(cors_plugin("*"))
 path = str(Path(__file__).parent.resolve()) 
-curr_session = None
+curr_session = None # check is it needed
 
 @app.get("/")
 def index():
@@ -32,10 +33,6 @@ def create_event():
     event: Event | None = None
     new_session: Session | None = None
 
-    if body.get("mode") == "live":
-        global curr_session
-        curr_session = session_name 
-
     try:
         session = Session.select().where(Session.name == session_name).get()
         event = Event.create(session=session, title=title, message=message, type=type)
@@ -51,7 +48,13 @@ def create_event():
                 "name": new_session.name,
                 "created_at": new_session.created_at,
             },
-            "event": None,
+            "event": {
+                "id": event.id,
+                "title": event.title,
+                "message": event.message,
+                "type": event.type,
+                "session_id": event.session.id,
+            },
         }
     else:
         msg = {
@@ -64,6 +67,12 @@ def create_event():
             },
             "session": None,
         }
+
+    if body.get("mode") == "live":
+        global curr_session
+        curr_session = session_name
+        requests.post("http://localhost:7001/start", json={"session": session_name, "query":body.get("query")})
+
     sse.publish(msg, type="stream")
     return "OK"
 
