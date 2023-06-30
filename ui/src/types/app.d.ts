@@ -9,7 +9,7 @@ declare global {
     };
     type Tab = {
       id: string;
-      mode: "idle" | "session";
+      mode: "idle" | "session" | "query";
       sessionId: number;
       events: Raw.Event[];
       records: Core.Record[];

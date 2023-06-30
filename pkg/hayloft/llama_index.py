@@ -1,8 +1,9 @@
 import logging
+import threading
 import requests
 from bottle import app, request
 from bottle_cors_plugin import cors_plugin
-from hayloft.logger import logger
+from logger import logger
 from typing import Callable, Any
 
 class HayloftLogger(logging.Handler):
@@ -35,9 +36,11 @@ def listen(fn: Callable[[str], Any], server="http://localhost:7000"):
     @server.post("/start")
     def start_session():
         body = request.json
-        fn(body.get("input"))
+        session = body.get("session")
+        query = body.get("query")
+        threading.Thread(target=fn, args=(query,), name=session).start()
         return True 
 
-    server.run(host="localhost", port=7001, quiet=True)
     requests.get(f"{server}/live")
+    server.run(host="localhost", port=7001, quiet=True)
 

@@ -135,6 +135,13 @@ export const addTab = (store: App.Store): App.Store => ({
   tabs: [...store.tabs, buildEmptyTab()],
 });
 
+export const setTabMode =
+  (tabId: string, mode: App.Tab["mode"]) =>
+  (store: App.Store): App.Store => ({
+    ...store,
+    tabs: store.tabs.map((tab) => (tab.id === tabId ? { ...tab, mode } : tab)),
+  });
+
 export const toggleEagerMode =
   (tabId: string) =>
   (store: App.Store): App.Store => ({
