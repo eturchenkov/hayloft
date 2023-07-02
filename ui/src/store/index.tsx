@@ -18,6 +18,7 @@ export const StoreProvider: FC<{ children: ReactElement }> = ({ children }) => {
     ],
     sessionSelecting: { tabId: "" },
     sessions: [],
+    live: false,
   });
 
   return (

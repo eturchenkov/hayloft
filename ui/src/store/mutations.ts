@@ -1,6 +1,13 @@
 import * as R from "remeda";
 import { nanoid } from "nanoid";
 
+export const setLiveStatus =
+  (started: boolean) =>
+  (store: App.Store): App.Store => ({
+    ...store,
+    live: started,
+  });
+
 export const setSessions =
   (rawSessions: Raw.Session[]) =>
   (store: App.Store): App.Store => ({
@@ -140,6 +147,15 @@ export const setTabMode =
   (store: App.Store): App.Store => ({
     ...store,
     tabs: store.tabs.map((tab) => (tab.id === tabId ? { ...tab, mode } : tab)),
+  });
+
+export const setLiveTab =
+  (tabId: string, sessionId: number) =>
+  (store: App.Store): App.Store => ({
+    ...store,
+    tabs: store.tabs.map((tab) =>
+      tab.id === tabId ? { ...tab, mode: "session", sessionId } : tab
+    ),
   });
 
 export const toggleEagerMode =

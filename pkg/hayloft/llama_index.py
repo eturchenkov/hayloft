@@ -2,7 +2,6 @@ import logging
 import threading
 import requests
 from bottle import app, request
-from bottle_cors_plugin import cors_plugin
 from logger import logger
 from typing import Callable, Any
 
@@ -30,17 +29,23 @@ def grab_logs(server="http://localhost:7000"):
 
 def listen(fn: Callable[[str], Any], server="http://localhost:7000"):
     grab_logs(server=server)
-    server = app()
-    server.install(cors_plugin("*"))
+    live = app()
 
-    @server.post("/start")
+    @live.post("/start")
     def start_session():
         body = request.json
         session = body.get("session")
         query = body.get("query")
         threading.Thread(target=fn, args=(query,), name=session).start()
-        return True 
 
-    requests.get(f"{server}/live")
-    server.run(host="localhost", port=7001, quiet=True)
+    @live.get("/check")
+    def check():
+        return "OK"
+
+    try:
+        requests.get(f"{server}/live/start")
+        print("Live server started")
+        live.run(host="localhost", port=7001, quiet=True)
+    except:
+        print("Hayloft server haven't started")
 

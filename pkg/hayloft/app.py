@@ -13,7 +13,7 @@ from typing import Dict
 app = app()
 app.install(cors_plugin("*"))
 path = str(Path(__file__).parent.resolve()) 
-curr_session = None # check is it needed
+# curr_session = None # check is it needed
 
 @app.get("/")
 def index():
@@ -27,9 +27,10 @@ def serve_assets(file):
 def create_event():
     body = request.json
     session_name = body.get("session")
+    type = body.get("type")
     title = body.get("title")
     message = body.get("message")
-    type = body.get("type")
+    tabId = body.get("tabId")
     event: Event | None = None
     new_session: Session | None = None
 
@@ -40,7 +41,7 @@ def create_event():
         created_at = int(time.time() * 1000)
         new_session = Session.create(name=session_name, created_at=created_at)
         event = Event.create(session=new_session, title=title, message=message, type=type)
-    msg: Dict
+    msg: Dict = {}
     if new_session is not None:
         msg = {
             "session": {
@@ -68,13 +69,17 @@ def create_event():
             "session": None,
         }
 
-    if body.get("mode") == "live":
-        global curr_session
-        curr_session = session_name
-        requests.post("http://localhost:7001/start", json={"session": session_name, "query":body.get("query")})
+    if type == "query":
+        # global curr_session
+        # curr_session = session_name
+        try:
+            msg["tabId"] = tabId
+            requests.post("http://localhost:7001/start", json={"session": session_name, "query": message})
+        except:
+            return {"success": False}
 
     sse.publish(msg, type="stream")
-    return "OK"
+    return {"success": True}
 
 @app.get('/sessions')
 def get_sessions():
@@ -112,6 +117,18 @@ def get_events(session_id):
             for e in events
         ]
     }
+
+@app.get("/live/check")
+def live_check():
+    try:
+        requests.get("http://localhost:7001/check")
+        return {"started": True}
+    except:
+        return {"started": False}
+
+@app.get("/live/start")
+def live_start():
+    sse.publish({"live_start": True}, type="stream")
 
 @app.get("/listen")
 def listen():

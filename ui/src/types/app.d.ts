@@ -6,6 +6,7 @@ declare global {
       sessionSelecting: {
         tabId: string;
       };
+      live: boolean;
     };
     type Tab = {
       id: string;
