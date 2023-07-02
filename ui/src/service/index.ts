@@ -1,6 +1,14 @@
 import { agent } from "./agent";
 
 export const service = {
+  checkLive: () => agent("GET", "/live/check") as Promise<{ started: boolean }>,
+  startSession: (body: {
+    session: string;
+    type: "query";
+    title: string;
+    message: string;
+    tabId: string;
+  }) => agent("POST", "/event", body) as Promise<{ success: boolean }>,
   getSessions: () =>
     agent("GET", "/sessions") as Promise<{ sessions: Raw.Session[] }>,
   updateSession: (id: number, body: { name: string }) =>

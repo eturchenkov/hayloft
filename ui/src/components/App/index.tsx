@@ -17,13 +17,21 @@ export const App = () => {
   useEffect(() => {
     if (!isMounted) {
       isMounted = true;
+      service.checkLive().then(({ started }) => {
+        mutateStore(M.setLiveStatus(started));
+      });
       service
         .getSessions()
         .then(({ sessions }) => mutateStore(M.setSessions(sessions)));
       const source = buildEventSource();
       source.addEventListener("stream", (e) => {
         const streamObj = JSON.parse(e.data) as Raw.StreamObj;
-        if (streamObj.session) mutateStore(M.addSession(streamObj.session));
+        if (streamObj.live_start) mutateStore(M.setLiveStatus(true));
+        if (streamObj.session) {
+          mutateStore(M.addSession(streamObj.session));
+          streamObj.tabId &&
+            mutateStore(M.setLiveTab(streamObj.tabId, streamObj.session.id));
+        }
         if (streamObj.event) mutateStore(M.addEvent(streamObj.event));
       });
     }

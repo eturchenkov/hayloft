@@ -15,6 +15,8 @@ declare global {
     type StreamObj = {
       session: Session | null;
       event: Event | null;
+      live_start?: boolean;
+      tabId?: string;
     };
   }
 }

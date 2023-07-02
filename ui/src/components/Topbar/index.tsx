@@ -74,8 +74,13 @@ export const Topbar: FC = () => {
                     </span>
                   </p>
                   <p
-                    className="cursor-pointer"
-                    onClick={() => mutateStore(M.setTabMode(tab.id, "query"))}
+                    className={cs({
+                      "cursor-pointer": store.live,
+                      "text-gray-200": !store.live,
+                    })}
+                    onClick={() =>
+                      store.live && mutateStore(M.setTabMode(tab.id, "query"))
+                    }
                   >
                     Live
                   </p>
