@@ -6,14 +6,13 @@ from importlib.metadata import version
 from pathlib import Path
 from bottle import GeventServer, app, request, response, static_file
 from bottle_cors_plugin import cors_plugin
-from schema import Event, Session, db
-from sse import sse
+from hayloft.schema import Event, Session, db
+from hayloft.sse import sse
 from typing import Dict
 
 app = app()
 app.install(cors_plugin("*"))
 path = str(Path(__file__).parent.resolve()) 
-# curr_session = None # check is it needed
 
 @app.get("/")
 def index():
@@ -70,8 +69,6 @@ def create_event():
         }
 
     if type == "query":
-        # global curr_session
-        # curr_session = session_name
         try:
             msg["tabId"] = tabId
             requests.post("http://localhost:7001/start", json={"session": session_name, "query": message})

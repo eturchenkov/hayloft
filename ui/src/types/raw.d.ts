@@ -9,7 +9,7 @@ declare global {
       id: number;
       title: string;
       message: string;
-      type: "info" | "prompt" | "completion" | "error" | "warning";
+      type: "query" | "info" | "prompt" | "completion" | "error" | "warning";
       session_id: number;
     };
     type StreamObj = {
