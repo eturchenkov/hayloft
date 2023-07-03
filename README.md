@@ -32,7 +32,7 @@ Trace logs of your script on [http://localhost:7000](http://localhost:7000)
 
 ### LlamaIndex
 
-Install `LlamaIndex`, create `example.py` file as below. Put [examples](https://github.com/jerryjliu/llama_index/tree/main/examples) folder from llama_index repo near the file.
+Install `llama-index`, create `example.py` file as below. Put [examples](https://github.com/jerryjliu/llama_index/tree/main/examples) folder from llama_index repo near the file.
 
 ```python
 import os
@@ -47,6 +47,24 @@ documents = SimpleDirectoryReader("examples/paul_graham_essay/data").load_data()
 index = VectorStoreIndex.from_documents(documents)
 query_engine = index.as_query_engine()
 query_engine.query("What did the author do growing up?")
+```
+
+Or you can start live sessions from hayloft ui, just modify code like here
+
+```python
+import os
+os.environ["OPENAI_API_KEY"] = 'YOUR_OPENAI_API_KEY'
+
+from llama_index import SimpleDirectoryReader, VectorStoreIndex 
+from hayloft.llama_index import listen
+
+def agent(query: str):
+    documents = SimpleDirectoryReader("examples/paul_graham_essay/data").load_data()
+    index = VectorStoreIndex.from_documents(documents)
+    query_engine = index.as_query_engine()
+    query_engine.query(query)
+
+listen(agent)
 ```
 
 Start this script
