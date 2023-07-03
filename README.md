@@ -6,7 +6,7 @@
 
 UI tool for LLM frameworks to make easy prompt/completion tracking, store and comparison of different sessions.
 
-https://github.com/eturchenkov/hayloft/assets/49445761/c4f5aece-be4c-493f-8f36-b5adedafecf9
+https://github.com/eturchenkov/hayloft/assets/49445761/933f794f-0012-4d26-af57-89a00e7b2dbf
 
 - [Installation](#installation)
 - [Usage](#usage)
