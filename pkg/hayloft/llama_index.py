@@ -2,7 +2,7 @@ import logging
 import threading
 import requests
 from bottle import app, request
-from logger import logger
+from hayloft.logger import logger
 from typing import Callable, Any
 
 class HayloftLogger(logging.Handler):

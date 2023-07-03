@@ -76,7 +76,7 @@ export const Topbar: FC = () => {
                   <p
                     className={cs({
                       "cursor-pointer": store.live,
-                      "text-gray-200": !store.live,
+                      "text-gray-500": !store.live,
                     })}
                     onClick={() =>
                       store.live && mutateStore(M.setTabMode(tab.id, "query"))

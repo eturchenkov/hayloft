@@ -46,6 +46,7 @@ export const RecordList: FC<{ tabIndex: number }> = ({ tabIndex }) => {
                 className={cs(
                   "py-0 px-2 text-sm font-normal text-gray-300 rounded-lg",
                   {
+                    "bg-pink-900": record.type === "query",
                     "bg-cyan-900": record.type === "info",
                     "bg-rose-900": record.type === "error",
                     "bg-fuchsia-900": record.type === "warning",
