@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "hayloft"
-version = "0.4.0"
+version = "0.4.1"
 description = "UI tool for LLM frameworks"
 authors = []
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/eturchenkov/hayloft"
-keywords = ["llm framework", "llm app tracking", "ui for llm app"]
+keywords = ["UI tool", "LLM app", "tracking", "monitoring", "llama-index"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
