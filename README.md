@@ -28,7 +28,7 @@ Start hayloft server
 hayloft start
 ```
 
-Trace logs of your script on [http://localhost:7000](http://localhost:7000)
+Trace logs of your script on [http://localhost:7000](http://localhost:7000). From Hayloft UI you can monitor logs of scripts' executions as well as start new sessions in live mode.
 
 ### LlamaIndex
 
